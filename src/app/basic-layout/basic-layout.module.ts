@@ -17,6 +17,7 @@ import {
 } from '@angular/material';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TableComponent } from './table/table.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [NavComponent, DashboardComponent, TableComponent],
@@ -24,6 +25,7 @@ import { TableComponent } from './table/table.component';
   imports: [
     CommonModule,
     LayoutModule,
+    RouterModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,

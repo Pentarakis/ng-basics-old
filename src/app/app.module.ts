@@ -15,10 +15,19 @@ import {
   MatSortModule
 } from '@angular/material';
 import { BasicLayoutModule } from './basic-layout/basic-layout.module';
+import { RouterModule, Routes } from '@angular/router';
+import { CharacterComponent } from './character/character/character.component';
+
+const appRoutes: Routes = [
+  { path: 'characters', component: CharacterComponent },
+  { path: 'second-page', component: CharacterComponent },
+  { path: 'third-page', component: CharacterComponent }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
+    CharacterComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +41,8 @@ import { BasicLayoutModule } from './basic-layout/basic-layout.module';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [],
   bootstrap: [AppComponent]
