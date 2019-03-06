@@ -12,11 +12,12 @@ import {
   MatListModule,
   MatTableModule,
   MatPaginatorModule,
-  MatSortModule
+  MatSortModule, MatCardModule, MatInputModule, MatFormFieldModule
 } from '@angular/material';
 import { BasicLayoutModule } from './basic-layout/basic-layout.module';
 import { RouterModule, Routes } from '@angular/router';
 import { CharacterComponent } from './character/character/character.component';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: 'characters', component: CharacterComponent },
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     LayoutModule,
+    FormsModule,
     BasicLayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -42,6 +44,9 @@ const appRoutes: Routes = [
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [],
