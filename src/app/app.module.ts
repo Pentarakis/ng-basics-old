@@ -7,7 +7,7 @@ import { BasicLayoutModule } from './basic-layout/basic-layout.module';
 import { RouterModule, Routes } from '@angular/router';
 import { CharacterComponent } from './character/character/character.component';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 const appRoutes: Routes = [
   { path: 'character', component: CharacterComponent },
@@ -28,6 +28,7 @@ const appRoutes: Routes = [
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [],

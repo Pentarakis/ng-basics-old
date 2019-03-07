@@ -11,7 +11,6 @@ import {
   MatGridListModule,
   MatCardModule,
   MatMenuModule,
-  MatTableModule,
   MatPaginatorModule,
   MatSortModule
 } from '@angular/material';
@@ -20,8 +19,8 @@ import { TableComponent } from './table/table.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [NavComponent, DashboardComponent, TableComponent],
-  exports: [NavComponent, DashboardComponent, TableComponent],
+  declarations: [NavComponent, DashboardComponent],
+  exports: [NavComponent, DashboardComponent],
   imports: [
     CommonModule,
     LayoutModule,
@@ -34,7 +33,6 @@ import { RouterModule } from '@angular/router';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    MatTableModule,
     MatPaginatorModule,
     MatSortModule
   ]

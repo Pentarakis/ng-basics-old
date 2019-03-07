@@ -1,7 +1,7 @@
 
 <mat-card>
 
-  <mat-card-header>Character bearbeiten</mat-card-header>
+  <mat-card-header>Charakter bearbeiten</mat-card-header>
 
   <br>
 
@@ -9,18 +9,50 @@
 
     <form>
       <mat-form-field>
-        <input [(ngModel)]="character.name" placeholder="Name" name="name" matInput>
+        <input [(ngModel)]="selected.name" placeholder="Name" name="name" matInput>
       </mat-form-field>
 
       <mat-form-field>
-        <input [(ngModel)]="character.culture" placeholder="Culture" name="culture" matInput>
+        <input [(ngModel)]="selected.culture" placeholder="Culture" name="culture" matInput>
       </mat-form-field>
+
+      <mat-form-field>
+        <input [(ngModel)]="selected.born" placeholder="Geburt" name="born" matInput>
+      </mat-form-field>
+
+      <button mat-raised-button
+              color="primary"
+              (click)="addNewCharacter()">
+        Hinzufügen
+      </button>
 
     </form>
 
-    <p *ngIf="character.name || character.culture">
-      {{ character.name }}, {{ character.culture }}
-    </p>
+  </mat-card-content>
+
+</mat-card>
+
+<br>
+
+<mat-card>
+
+  <mat-card-header>Charakter-Liste</mat-card-header>
+
+  <br>
+
+  <mat-card-content>
+
+    <table>
+
+      <tr><td>Name</td><td>Kultur</td><td>Geburt</td></tr>
+
+      <tr *ngFor="let character of characters" (click)="selected = character">
+        <td>{{ character.name }}</td>
+        <td>{{ character.culture }}</td>
+        <td>{{ character.born }}</td>
+      </tr>
+
+    </table>
 
   </mat-card-content>
 
