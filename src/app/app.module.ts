@@ -7,11 +7,20 @@ import { BasicLayoutModule } from './basic-layout/basic-layout.module';
 import { RouterModule, Routes } from '@angular/router';
 import { CharacterComponent } from './character/character/character.component';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule
+} from '@angular/material';
+import { CharacterListComponent } from './character/character-list/character-list.component';
 
 const appRoutes: Routes = [
-  { path: 'character', component: CharacterComponent },
-  { path: 'second-page', component: CharacterComponent },
+  { path: 'character', component: CharacterListComponent, pathMatch: 'full' },
+  { path: 'character/:id', component: CharacterComponent },
   { path: 'third-page', component: CharacterComponent }
 ];
 
@@ -19,6 +28,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     CharacterComponent,
+    CharacterListComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +40,9 @@ const appRoutes: Routes = [
     MatInputModule,
     MatButtonModule,
     RouterModule.forRoot(appRoutes),
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
