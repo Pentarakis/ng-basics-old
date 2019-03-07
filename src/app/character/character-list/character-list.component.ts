@@ -3,6 +3,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { CharacterListDataSource } from './character-list-datasource';
 import { Character } from '../model/character';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CharacterService } from '../services/character.service';
 
 @Component({
   selector: 'got-character-list',
@@ -18,15 +19,22 @@ export class CharacterListComponent implements OnInit {
   displayedColumns = ['id', 'name', 'culture', 'born'];
 
   constructor(private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private characterService: CharacterService
   ) { }
 
   ngOnInit() {
-    this.dataSource = new CharacterListDataSource(this.paginator, this.sort);
+    this.dataSource = new CharacterListDataSource(this.paginator, this.sort, this.characterService);
   }
 
-  navigate(character: Character) {
+  update(character: Character) {
     this.router.navigate([`./${character.id}`], {
+      relativeTo: this.route
+    });
+  }
+
+  create() {
+    this.router.navigate(['./create'], {
       relativeTo: this.route
     });
   }

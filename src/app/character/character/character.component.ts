@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Character } from '../model/character';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CharacterService } from '../services/character.service';
 
 @Component({
   selector: 'got-character',
@@ -9,13 +10,32 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CharacterComponent implements OnInit {
 
-  selected: Character = {};
+  selected: Character = new Character();
+  isCreateMode = false;
 
-  ngOnInit() {
+  constructor(private characterService: CharacterService, private router: Router, private route: ActivatedRoute) {
   }
 
-  addNewCharacter(): void {
-    this.selected = {};
+  ngOnInit() {
+    const id = this.route.snapshot.params.id;
+    if (id === 'create') {
+      this.selected = new Character();
+      this.isCreateMode = true;
+    } else if (id) {
+      const character = this.characterService.read(Number(id));
+      if (character) {
+        this.selected = character;
+      }
+    }
+  }
+
+  save(): void {
+    if (this.isCreateMode) {
+      this.characterService.create(this.selected);
+    } else {
+      this.characterService.update(this.selected);
+    }
+    this.router.navigate([`../`], { relativeTo: this.route });
   }
 
 }

@@ -15,7 +15,6 @@ import {
   MatSortModule
 } from '@angular/material';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TableComponent } from './table/table.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({

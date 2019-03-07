@@ -22,37 +22,11 @@
 
       <button mat-raised-button
               color="primary"
-              (click)="addNewCharacter()">
-        Hinzufügen
+              (click)="save()">
+        Speichern
       </button>
 
     </form>
-
-  </mat-card-content>
-
-</mat-card>
-
-<br>
-
-<mat-card>
-
-  <mat-card-header>Charakter-Liste</mat-card-header>
-
-  <br>
-
-  <mat-card-content>
-
-    <table>
-
-      <tr><td>Name</td><td>Kultur</td><td>Geburt</td></tr>
-
-      <tr *ngFor="let character of characters" (click)="selected = character">
-        <td>{{ character.name }}</td>
-        <td>{{ character.culture }}</td>
-        <td>{{ character.born }}</td>
-      </tr>
-
-    </table>
 
   </mat-card-content>
 

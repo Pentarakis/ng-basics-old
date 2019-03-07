@@ -1,4 +1,4 @@
-export interface Character {
+export class Character {
   id?: number;
   name: string;
   culture: string;
