@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterService } from '../services/character.service';
 import { Observable, Subject } from 'rxjs/index';
 import { filter, pluck, switchMap, takeUntil } from 'rxjs/internal/operators';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'got-character',
@@ -12,15 +13,20 @@ import { filter, pluck, switchMap, takeUntil } from 'rxjs/internal/operators';
 })
 export class CharacterComponent implements OnInit, OnDestroy {
 
+  form: FormGroup;
   selected: Character = new Character();
   isCreateMode = false;
 
   private destroy = new Subject<boolean>();
 
-  constructor(private characterService: CharacterService, private router: Router, private route: ActivatedRoute) {
+  constructor(private characterService: CharacterService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private fb: FormBuilder) {
   }
 
   ngOnInit() {
+    this.initForm();
 
     const id$ = this.route.params.pipe(pluck('id'));
     id$
@@ -29,7 +35,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy)
       )
       .subscribe(() => {
-        this.selected = new Character();
+        this.form.patchValue(new Character());
         this.isCreateMode = true;
       });
     id$
@@ -39,7 +45,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy)
       )
       .subscribe((character: Character) => {
-        this.selected = character;
+        this.form.patchValue(character);
       });
   }
 
@@ -54,11 +60,23 @@ export class CharacterComponent implements OnInit, OnDestroy {
       });
   }
 
+  private initForm(): void {
+    this.form = this.fb.group({
+      id: [{ value: null, disabled: true }],
+      name: [null, [Validators.required, Validators.maxLength(30)]],
+      culture: [null],
+      born: [null]
+    });
+  }
+
   private createOrUpdate(): Observable<Character> {
+    if (!this.form.valid) {
+      return;
+    }
     if (this.isCreateMode) {
-      return this.characterService.create(this.selected);
+      return this.characterService.create(this.form.getRawValue());
     } else {
-      return this.characterService.update(this.selected);
+      return this.characterService.update(this.form.getRawValue());
     }
   }
 

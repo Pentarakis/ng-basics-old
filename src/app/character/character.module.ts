@@ -9,13 +9,13 @@ import {
   MatTableModule
 } from '@angular/material';
 import { BasicLayoutModule } from '../basic-layout/basic-layout.module';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [CharacterComponent, CharacterListComponent],
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     CharacterRoutingModule,
     BasicLayoutModule,
     MatCardModule,

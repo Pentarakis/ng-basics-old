@@ -7,17 +7,23 @@
 
   <mat-card-content>
 
-    <form>
+    <form [formGroup]="form">
       <mat-form-field>
-        <input [(ngModel)]="selected.name" placeholder="Name" name="name" matInput>
+        <input formControlName="name" placeholder="Name" name="name" matInput>
+        <mat-error *ngIf="form.get('name').hasError('required') && form.get('name').dirty">
+          Pflichtfeld!
+        </mat-error>
+        <mat-error *ngIf="form.get('name').hasError('maxlength') && form.get('name').dirty">
+          Maximal 30 Zeichen erlaubt!
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field>
-        <input [(ngModel)]="selected.culture" placeholder="Culture" name="culture" matInput>
+        <input formControlName="culture" placeholder="Culture" name="culture" matInput>
       </mat-form-field>
 
       <mat-form-field>
-        <input [(ngModel)]="selected.born" placeholder="Geburt" name="born" matInput>
+        <input formControlName="born" placeholder="Geburt" name="born" matInput>
       </mat-form-field>
 
       <button mat-raised-button
