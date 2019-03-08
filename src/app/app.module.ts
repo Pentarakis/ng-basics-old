@@ -17,6 +17,7 @@ import {
   MatSortModule
 } from '@angular/material';
 import { CharacterListComponent } from './character/character-list/character-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   { path: 'character', component: CharacterListComponent, pathMatch: 'full' },
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

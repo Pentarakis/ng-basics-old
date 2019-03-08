@@ -1,36 +1,46 @@
 import { Injectable } from '@angular/core';
 import { Character } from '../model/character';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import {
+  catchError
+} from 'rxjs/operators';
+
+const baseUrl = 'http://localhost:3000/character';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CharacterService {
 
-  data: Character[] = [
-    {"id":1303,"name":"Daenerys Targaryen","isFemale":true,"culture":"Valyrian","titles":["Queen of the Andals and the Rhoynar and the First Men, Lord of the Seven Kingdoms","Khaleesi of the Great Grass Sea","Breaker of Shackles/Chains","Queen of Meereen","Princess of Dragonstone"],"aliases":["Dany","Daenerys Stormborn","The Unburnt","Mother of Dragons","Mother","Mhysa","The Silver Queen","Silver Lady","Dragonmother","The Dragon Queen","The Mad King's daughter"],"born":"In 284 AC, at Dragonstone","died":"","father":null,"mother":null,"spouse":1346,"children":[],"allegiances":[378],"books":[5],"povBooks":[1,2,3,8],"playedBy":["Emilia Clarke"],"tvSeries":["Season 1","Season 2","Season 3","Season 4","Season 5", "Season 6"]},
-    {"id":583,"name":"Jon Snow","isFemale":false,"culture":"Northmen","titles":["Lord Commander of the Night's Watch"],"aliases":["Lord Snow","Ned Stark's Bastard","The Snow of Winterfell","The Crow-Come-Over","The 998th Lord Commander of the Night's Watch","The Bastard of Winterfell","The Black Bastard of the Wall","Lord Crow"],"born":"In 283 AC","died":"","father":null,"mother":null,"spouse":null,"children":[],"allegiances":[362],"books":[5],"povBooks":[1,2,3,8],"playedBy":["Kit Harington"],"tvSeries":["Season 1","Season 2","Season 3","Season 4","Season 5", "Season 6"]},
-    {"id":1052,"name":"Tyrion Lannister","isFemale":false,"culture":"","titles":["Acting Hand of the King (former)","Master of Coin (former)"],"aliases":["The Imp","Halfman","The boyman","Giant of Lannister","Lord Tywin's Doom","Lord Tywin's Bane","Yollo","Hugor Hill","No-Nose","Freak","Dwarf"],"born":"In 273 AC, at Casterly Rock","died":"","father":null,"mother":null,"spouse":2044,"children":[],"allegiances":[229],"books":[5,11],"povBooks":[1,2,3,8],"playedBy":["Peter Dinklage"],"tvSeries":["Season 1","Season 2","Season 3","Season 4","Season 5", "Season 6"]},
-  ];
-
-  constructor() { }
-
-  read(id: number): Character {
-    const result = this.data.filter(character => character.id === id);
-    return result.length > 0 ? result[0] : null;
+  catch = () => {
+    alert('Verbindungsprobleme');
+    return of(null);
   }
 
-  readAll(): Character[] {
-    return this.data;
+  constructor(private httpClient: HttpClient) { }
+
+  readAll(): Observable<Character[]> {
+    return this.httpClient.get<Character[]>(baseUrl)
+      .pipe(catchError(() => {
+        alert('Verbindungsprobleme');
+        return of([]);
+      }));
   }
 
-  update(character: Character) {
-    const result = this.data.findIndex(char => char.id === character.id);
-    if (result >= 0) {
-      this.data[result] = character;
-    }
+  read(id: number): Observable<Character> {
+    return this.httpClient.get<Character>(`${baseUrl}/${id}`)
+      .pipe(catchError(this.catch));
   }
 
-  create(character: Character) {
-    this.data.push(character);
+  update(character: Character): Observable<Character> {
+    return this.httpClient.put<Character>(`${baseUrl}/${character.id}`, character)
+      .pipe(catchError(this.catch));
   }
+
+  create(character: Character): Observable<Character> {
+    return this.httpClient.post<Character>(baseUrl, character)
+      .pipe(catchError(this.catch));
+  }
+
 }

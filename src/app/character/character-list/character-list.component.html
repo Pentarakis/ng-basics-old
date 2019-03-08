@@ -1,3 +1,12 @@
+<button mat-raised-button
+        color="primary"
+        (click)="create()">
+  Hinzufügen
+</button>
+
+<br>
+<br>
+
 <div class="mat-elevation-z8">
   <table mat-table class="full-width-table" [dataSource]="dataSource" matSort aria-label="Elements">
     <!-- Id Column -->
@@ -29,17 +38,9 @@
   </table>
 
   <mat-paginator #paginator
-      [length]="dataSource.data.length"
+      [length]="dataSource.paginator.length"
       [pageIndex]="0"
       [pageSize]="50"
       [pageSizeOptions]="[25, 50, 100, 250]">
   </mat-paginator>
 </div>
-
-<br>
-
-<button mat-raised-button
-        color="primary"
-        (click)="create()">
-  Hinzufügen
-</button>

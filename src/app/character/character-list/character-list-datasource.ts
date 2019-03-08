@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
 import { Character } from '../model/character';
 import { CharacterService } from '../services/character.service';
+import { share } from 'rxjs/internal/operators';
 
 /**
  * Data source for the CharacterList view. This class should
@@ -11,11 +12,9 @@ import { CharacterService } from '../services/character.service';
  * (including sorting, pagination, and filtering).
  */
 export class CharacterListDataSource extends DataSource<Character> {
-  data: Character[];
 
   constructor(private paginator: MatPaginator, private sort: MatSort, private characterService: CharacterService) {
     super();
-    this.data = this.characterService.readAll();
   }
 
   /**
@@ -24,20 +23,25 @@ export class CharacterListDataSource extends DataSource<Character> {
    * @returns A stream of the items to be rendered.
    */
   connect(): Observable<Character[]> {
+    const dataObservable: Observable<Character[]> = this.characterService.readAll().pipe(share());
+
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
-      observableOf(this.data),
+      dataObservable,
       this.paginator.page,
       this.sort.sortChange
     ];
 
-    // Set the paginator's length
-    this.paginator.length = this.data.length;
+    dataObservable.subscribe((charcters: Character[]) => {
+      // Set the paginator's length
+      this.paginator.length = charcters.length;
 
-    return merge(...dataMutations).pipe(map(() => {
-      return this.getPagedData(this.getSortedData([...this.data]));
-    }));
+      return merge(...dataMutations).pipe(map(() => {
+        return this.getPagedData(this.getSortedData([...charcters]));
+      }));
+    });
+    return dataObservable;
   }
 
   /**
